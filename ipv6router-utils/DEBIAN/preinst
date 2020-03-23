@@ -1,0 +1,66 @@
+#!/bin/bash
+
+echo "ipv6router-utils Pre install shell script"
+
+backup_folder="/opt/ipv6router-utils/backup"
+upgrade_folder="/opt/ipv6router-utils/upgrade"
+
+copy_file_to_if_exists()
+{
+    FILE=$1
+    DESTINATION=$2
+
+    if [ -f "$FILE" ]
+    then
+        echo "Found $FILE, copying it in $2"
+        cp -f "$FILE" "$2"
+        echo "Copied $FILE"
+    fi
+}
+
+save_current_configuration_to()
+{
+    DESTINATION_FOLDER=$1
+
+    echo "Saving current configuration to $DESTINATION_FOLDER"
+    mkdir -p $DESTINATION_FOLDER
+
+    copy_file_to_if_exists("/etc/dhcpcd.conf", "$DESTINATION_FOLDER/etc")
+    copy_file_to_if_exists("/etc/radvd.conf", "$DESTINATION_FOLDER/etc")
+    copy_file_to_if_exists("/etc/tayga.conf", "$DESTINATION_FOLDER/etc")
+    copy_file_to_if_exists("/etc/default/tayga", "$DESTINATION_FOLDER/etc/default")
+    copy_file_to_if_exists("/etc/bind/named.conf.options", "$DESTINATION_FOLDER/etc/bind")
+    copy_file_to_if_exists("/etc/wide-dhcpv6/dhcp6s.conf", "$DESTINATION_FOLDER/etc/wide-dhcpv6")
+
+    copy_file_to_if_exists("/etc/sysctl.conf", "$DESTINATION_FOLDER/etc")
+    copy_file_to_if_exists("/etc/iptables.ipv4.nat", "$DESTINATION_FOLDER/etc")
+    copy_file_to_if_exists("/etc/rc.local", "$DESTINATION_FOLDER/etc")
+
+    echo "Done saving configuration"
+}
+
+case "$1" in
+    install)
+        echo "Pre-Install..."
+        echo "Saving current configuration to $backup_folder"
+        mkdir -p $backup_folder
+        save_current_configuration_to($backup_folder)
+        echo "Pre-Install... done"
+    ;;
+
+    upgrade)
+        echo "Upgrade"
+        #echo "Saving current configuration to $upgrade_folder"
+        #mkdir -p $upgrade_folder
+        #save_current_configuration_to($upgrade_folder)
+        echo "Done"
+    ;;
+
+    *)
+        echo "preinst called with unknown argument \`$1'" >&2
+        exit 0
+    ;;
+esac
+
+exit 0
+

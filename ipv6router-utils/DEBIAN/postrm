@@ -1,0 +1,69 @@
+#!/bin/bash
+
+echo "Helios Post Removal shell script"
+
+backup_folder="/opt/ipv6router-utils/backup"
+
+copy_file_to_if_exists()
+{
+    FILE=$1
+    DESTINATION=$2
+
+    if [ -f "$FILE" ]
+    then
+        echo "Found $FILE, copying it in $2"
+        cp -f "$FILE" "$2"
+        echo "Copied $FILE"
+    fi
+}
+
+restore_configuration_from()
+{
+    FOLDER=$1
+
+    echo "Rstoring configuration from $FOLDER"
+    
+    copy_file_to_if_exists("$FOLDER/etc/dhcpcd.conf", "/etc")
+    copy_file_to_if_exists("$FOLDER/etc/radvd.conf", "/etc")
+    copy_file_to_if_exists("$FOLDER/etc/tayga.conf", "/etc")
+    copy_file_to_if_exists("$FOLDER/etc/default/tayga", "/etc/default")
+    copy_file_to_if_exists("$FOLDER/etc/bind/named.conf.options", "/etc/bind")
+    copy_file_to_if_exists("$FOLDER/etc/wide-dhcpv6/dhcp6s.conf", "/etc/wide-dhcpv6")
+
+    copy_file_to_if_exists("$FOLDER/etc/sysctl.conf", "/etc")
+    copy_file_to_if_exists("$FOLDER/etc/iptables.ipv4.nat", "/etc")
+    copy_file_to_if_exists("$FOLDER/etc/rc.local", "/etc")
+ 
+    echo "Done restoring configuration"
+}
+
+case "$1" in
+    remove)
+        echo "Uninstalled ipv6router-utils package"
+        echo "Restoring backuped files"
+        
+        restore_configuration_from($backup_folder)
+
+        echo "Removing last ipv6router-utils files"
+        rm -rf /opt/ipv6router-utils
+
+        echo "Post Removal steps finished ! Please reboot using : sudo reboot"
+    ;;
+
+    upgrade)
+        echo "Upgrade"
+    ;;
+
+    failed-upgrade|purge|abort-install|abort-upgrade)
+        echo "Upgrade failed"
+    ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+exit 0
+
+

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+echo "ipv6router-utils Post install shell script"
+
+upgrade_folder="/opt/ipv6router-utils/upgrade"
+
+restore_configuration_from()
+{
+    FOLDER=$1
+}
+
+case "$1" in
+    configure)
+
+	if [ -d "$upgrade_folder" ]
+	then
+		echo "Upgrade ongoing"
+        echo "Done"
+	fi
+        echo "First Installation"
+        
+        echo "Enabling ip forwarding"
+        sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+        sh -c "echo 1 > /proc/sys/net/ipv6/conf/all/forwarding"
+
+        echo "Enabling NAT44 on eth0"
+        iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+        echo "Saving Rules for auto enabling at startup"
+        sh -c "iptables-save > /etc/iptables.ipv4.nat"
+
+        #TODO edit rc.local by detecting exit 0 using sed and add following line before
+        #iptables-restore < /etc/iptables.ipv4.nat
+
+        echo "Installation Done! Please reboot using : sudo reboot"
+
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+    ;;
+esac
+
+exit 0
