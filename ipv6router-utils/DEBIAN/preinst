@@ -12,8 +12,8 @@ copy_file_to_if_exists()
 
     if [ -f "$FILE" ]
     then
-        echo "Found $FILE, copying it in $2"
-        cp -f "$FILE" "$2"
+        echo "Found $FILE, copying it in $DESTINATION"
+        cp -f "$FILE" "$DESTINATION"
         echo "Copied $FILE"
     fi
 }
