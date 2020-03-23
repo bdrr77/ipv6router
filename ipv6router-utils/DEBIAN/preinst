@@ -25,16 +25,16 @@ save_current_configuration_to()
     echo "Saving current configuration to $DESTINATION_FOLDER"
     mkdir -p $DESTINATION_FOLDER
 
-    copy_file_to_if_exists("/etc/dhcpcd.conf", "$DESTINATION_FOLDER/etc")
-    copy_file_to_if_exists("/etc/radvd.conf", "$DESTINATION_FOLDER/etc")
-    copy_file_to_if_exists("/etc/tayga.conf", "$DESTINATION_FOLDER/etc")
-    copy_file_to_if_exists("/etc/default/tayga", "$DESTINATION_FOLDER/etc/default")
-    copy_file_to_if_exists("/etc/bind/named.conf.options", "$DESTINATION_FOLDER/etc/bind")
-    copy_file_to_if_exists("/etc/wide-dhcpv6/dhcp6s.conf", "$DESTINATION_FOLDER/etc/wide-dhcpv6")
+    copy_file_to_if_exists "/etc/dhcpcd.conf" "$DESTINATION_FOLDER/etc"
+    copy_file_to_if_exists "/etc/radvd.conf" "$DESTINATION_FOLDER/etc"
+    copy_file_to_if_exists "/etc/tayga.conf" "$DESTINATION_FOLDER/etc"
+    copy_file_to_if_exists "/etc/default/tayga" "$DESTINATION_FOLDER/etc/default"
+    copy_file_to_if_exists "/etc/bind/named.conf.options" "$DESTINATION_FOLDER/etc/bind"
+    copy_file_to_if_exists "/etc/wide-dhcpv6/dhcp6s.conf" "$DESTINATION_FOLDER/etc/wide-dhcpv6"
 
-    copy_file_to_if_exists("/etc/sysctl.conf", "$DESTINATION_FOLDER/etc")
-    copy_file_to_if_exists("/etc/iptables.ipv4.nat", "$DESTINATION_FOLDER/etc")
-    copy_file_to_if_exists("/etc/rc.local", "$DESTINATION_FOLDER/etc")
+    copy_file_to_if_exists "/etc/sysctl.conf" "$DESTINATION_FOLDER/etc"
+    copy_file_to_if_exists "/etc/iptables.ipv4.nat" "$DESTINATION_FOLDER/etc"
+    copy_file_to_if_exists "/etc/rc.local" "$DESTINATION_FOLDER/etc"
 
     echo "Done saving configuration"
 }
@@ -42,9 +42,7 @@ save_current_configuration_to()
 case "$1" in
     install)
         echo "Pre-Install..."
-        echo "Saving current configuration to $backup_folder"
-        mkdir -p $backup_folder
-        save_current_configuration_to($backup_folder)
+        save_current_configuration_to $backup_folder
         echo "Pre-Install... done"
     ;;
 

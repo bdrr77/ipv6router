@@ -23,16 +23,16 @@ restore_configuration_from()
 
     echo "Rstoring configuration from $FOLDER"
     
-    copy_file_to_if_exists("$FOLDER/etc/dhcpcd.conf", "/etc")
-    copy_file_to_if_exists("$FOLDER/etc/radvd.conf", "/etc")
-    copy_file_to_if_exists("$FOLDER/etc/tayga.conf", "/etc")
-    copy_file_to_if_exists("$FOLDER/etc/default/tayga", "/etc/default")
-    copy_file_to_if_exists("$FOLDER/etc/bind/named.conf.options", "/etc/bind")
-    copy_file_to_if_exists("$FOLDER/etc/wide-dhcpv6/dhcp6s.conf", "/etc/wide-dhcpv6")
+    copy_file_to_if_exists "$FOLDER/etc/dhcpcd.conf" "/etc"
+    copy_file_to_if_exists "$FOLDER/etc/radvd.conf" "/etc"
+    copy_file_to_if_exists "$FOLDER/etc/tayga.conf" "/etc"
+    copy_file_to_if_exists "$FOLDER/etc/default/tayga" "/etc/default"
+    copy_file_to_if_exists "$FOLDER/etc/bind/named.conf.options" "/etc/bind"
+    copy_file_to_if_exists "$FOLDER/etc/wide-dhcpv6/dhcp6s.conf" "/etc/wide-dhcpv6"
 
-    copy_file_to_if_exists("$FOLDER/etc/sysctl.conf", "/etc")
-    copy_file_to_if_exists("$FOLDER/etc/iptables.ipv4.nat", "/etc")
-    copy_file_to_if_exists("$FOLDER/etc/rc.local", "/etc")
+    copy_file_to_if_exists "$FOLDER/etc/sysctl.conf" "/etc"
+    copy_file_to_if_exists "$FOLDER/etc/iptables.ipv4.nat" "/etc"
+    copy_file_to_if_exists "$FOLDER/etc/rc.local" "/etc"
  
     echo "Done restoring configuration"
 }
@@ -42,7 +42,7 @@ case "$1" in
         echo "Uninstalled ipv6router-utils package"
         echo "Restoring backuped files"
         
-        restore_configuration_from($backup_folder)
+        restore_configuration_from $backup_folder
 
         echo "Removing last ipv6router-utils files"
         rm -rf /opt/ipv6router-utils
