@@ -6,4 +6,4 @@ Architecture: all
 Essential: no
 Maintainer: Brian Rodrigues
 Description: Utility to bring ipv6 routing abilities to a debian host (RA, DHCPv6, DNS64, NAT64).
-Depends: radvd, dhcpcd5, wide-dhcp6-server, bind9, tayga, dnsutils
+Depends: radvd, dhcpcd5, wide-dhcpv6-server, bind9, tayga, dnsutils
