@@ -2,12 +2,54 @@
 
 echo "ipv6router-utils Post install shell script"
 
+default_conf_folder="/opt/ipv6router-utils/default-conf"
 upgrade_folder="/opt/ipv6router-utils/upgrade"
 
-restore_configuration_from()
+ut_default_conf_folder="../opt/ipv6router-utils/default-conf"
+
+overwrite_or_create_file_to()
 {
-    FOLDER=$1
+    FILE=$1
+    DESTINATION=$2
+
+    if [ -f "$FILE" ]
+    then
+        if [ -f "$DESTINATION" ]
+        then
+            echo "Overwriting $DESTINATION by $FILE"       
+        else
+            echo "Creating $DESTINATION from $FILE"
+        fi    
+        cat $FILE > $DESTINATION
+    else
+        echo "File not found : $FILE"
+    fi
 }
+
+
+apply_configuration_from()
+{
+    SOURCE_FOLDER=$1
+
+    echo "Applying configuration from $SOURCE_FOLDER"
+
+    overwrite_or_create_file_to "$SOURCE_FOLDER/etc/dhcpcd.conf" "/etc/dhcpcd-test.conf"
+
+    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/dhcpcd.conf" "/etc/dhcpcd.conf"
+    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/radvd.conf" "/etc/radvd.conf"
+    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/tayga.conf" "/etc/tayga.conf"
+    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/default/tayga" "/etc/default/tayga"
+    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/bind/named.conf.options" "/etc/bind/named.conf.options"
+    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/wide-dhcpv6/dhcp6s.conf" "/etc/wide-dhcpv6/dhcp6s.conf"
+
+    #copy_file_to_if_exists "/etc/sysctl.conf" "$DESTINATION_FOLDER/etc"
+    #copy_file_to_if_exists "/etc/iptables.ipv4.nat" "$DESTINATION_FOLDER/etc"
+    #copy_file_to_if_exists "/etc/rc.local" "$DESTINATION_FOLDER/etc"
+
+    echo "Done Applying configuration"
+}
+
+
 
 case "$1" in
     configure)
@@ -17,22 +59,23 @@ case "$1" in
 		echo "Upgrade ongoing"
         echo "Done"
 	fi
-        echo "First Installation"
-        
-        echo "Enabling ip forwarding"
-        sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
-        sh -c "echo 1 > /proc/sys/net/ipv6/conf/all/forwarding"
+        echo "First Installation, applying default configuration"
+        apply_configuration_from $default_conf_folder      
 
-        echo "Enabling NAT44 on eth0"
-        iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+        # echo "Enabling ip forwarding"
+        # sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+        # sh -c "echo 1 > /proc/sys/net/ipv6/conf/all/forwarding"
 
-        echo "Saving Rules for auto enabling at startup"
-        sh -c "iptables-save > /etc/iptables.ipv4.nat"
+        # echo "Enabling NAT44 on eth0"
+        # iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
-        #TODO edit rc.local by detecting exit 0 using sed and add following line before
-        #iptables-restore < /etc/iptables.ipv4.nat
+        # echo "Saving Rules for auto enabling at startup"
+        # sh -c "iptables-save > /etc/iptables.ipv4.nat"
 
-        echo "Installation Done! Please reboot using : sudo reboot"
+        # #TODO edit rc.local by detecting exit 0 using sed and add following line before
+        # #iptables-restore < /etc/iptables.ipv4.nat
+
+        # echo "Installation Done! Please reboot using : sudo reboot"
 
     ;;
 
