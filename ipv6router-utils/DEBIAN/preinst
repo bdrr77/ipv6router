@@ -13,6 +13,12 @@ copy_file_to_if_exists()
     if [ -f "$FILE" ]
     then
         echo "Found $FILE, copying it in $DESTINATION"
+
+        if [ ! -d "$DESTINATION" ]
+        then
+            echo "Creating $DESTINATION"
+            mkdir -p "$DESTINATION"
+        fi
         cp -f "$FILE" "$DESTINATION"
         echo "Copied $FILE"
     fi
