@@ -1,15 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 #This file downloads helios ll agent from git and builds it on your plateform
 
 programName="ipv6router-utils"
 ext=".deb"
 
 #Get version number from config/version file called as $version
-./$programName/opt/$programName/version
-echo "test version $version"
+source ./$programName/opt/$programName/version
+echo "test version $package_version"
 
 ## Build apt-package
-sed -i "s/PACKAGE_VERSION/$version/g" $programName/DEBIAN/control
+sed -i "s/PACKAGE_VERSION/$package_version/g" $programName/DEBIAN/control
 echo "Building apt package"
 dpkg-deb --build "$programName"
 
