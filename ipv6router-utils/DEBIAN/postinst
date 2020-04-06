@@ -60,20 +60,20 @@ case "$1" in
         echo "First Installation, applying default configuration"
         apply_configuration_from $default_conf_folder      
 
-        # echo "Enabling ip forwarding"
-        # sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
-        # sh -c "echo 1 > /proc/sys/net/ipv6/conf/all/forwarding"
+        echo "Enabling ip forwarding"
+        echo 1 > /proc/sys/net/ipv4/ip_forward
+        echo 1 > /proc/sys/net/ipv6/conf/all/forwarding
 
-        # echo "Enabling NAT44 on eth0"
-        # iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+        echo "Enabling NAT44 on eth0"
+        iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
-        # echo "Saving Rules for auto enabling at startup"
-        # sh -c "iptables-save > /etc/iptables.ipv4.nat"
+        echo "Saving Rules for auto enabling at startup"
+        iptables-save > /etc/iptables.ipv4.nat
 
-        # #TODO edit rc.local by detecting exit 0 using sed and add following line before
+        ##TODO edit rc.local by detecting exit 0 using sed and add following line before
         # #iptables-restore < /etc/iptables.ipv4.nat
 
-        # echo "Installation Done! Please reboot using : sudo reboot"
+        echo "Installation Done! Please reboot using : sudo reboot"
 
     ;;
 
