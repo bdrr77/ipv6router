@@ -13,4 +13,4 @@ sed -i "s/PACKAGE_VERSION/$package_version/g" $programName/DEBIAN/control
 echo "Building apt package"
 dpkg-deb --build "$programName"
 
-mv "$programName$ext" "$programName-$version$ext"
+mv "$programName$ext" "$programName-$package_version$ext"
