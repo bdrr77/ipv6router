@@ -33,14 +33,12 @@ apply_configuration_from()
 
     echo "Applying configuration from $SOURCE_FOLDER"
 
-    overwrite_or_create_file_to "$SOURCE_FOLDER/etc/dhcpcd.conf" "/etc/dhcpcd-test.conf"
-
-    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/dhcpcd.conf" "/etc/dhcpcd.conf"
-    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/radvd.conf" "/etc/radvd.conf"
-    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/tayga.conf" "/etc/tayga.conf"
-    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/default/tayga" "/etc/default/tayga"
-    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/bind/named.conf.options" "/etc/bind/named.conf.options"
-    # overwrite_or_create_file_to "$SOURCE_FOLDER/etc/wide-dhcpv6/dhcp6s.conf" "/etc/wide-dhcpv6/dhcp6s.conf"
+    overwrite_or_create_file_to "$SOURCE_FOLDER/etc/dhcpcd.conf" "/etc/dhcpcd.conf"
+    overwrite_or_create_file_to "$SOURCE_FOLDER/etc/radvd.conf" "/etc/radvd.conf"
+    overwrite_or_create_file_to "$SOURCE_FOLDER/etc/tayga.conf" "/etc/tayga.conf"
+    overwrite_or_create_file_to "$SOURCE_FOLDER/etc/default/tayga" "/etc/default/tayga"
+    overwrite_or_create_file_to "$SOURCE_FOLDER/etc/bind/named.conf.options" "/etc/bind/named.conf.options"
+    overwrite_or_create_file_to "$SOURCE_FOLDER/etc/wide-dhcpv6/dhcp6s.conf" "/etc/wide-dhcpv6/dhcp6s.conf"
 
     #copy_file_to_if_exists "/etc/sysctl.conf" "$DESTINATION_FOLDER/etc"
     #copy_file_to_if_exists "/etc/iptables.ipv4.nat" "$DESTINATION_FOLDER/etc"
