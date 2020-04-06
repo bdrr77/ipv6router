@@ -1,5 +1,5 @@
 Package: ipv6router-utils
-Version: 0.0.1
+Version: PACKAGE_VERSION
 Section: custom
 Priority: optional
 Architecture: all
